@@ -3,6 +3,7 @@ package ir.Greenbot.greenstats;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class AdminCommand implements CommandExecutor {
@@ -20,8 +21,9 @@ public class AdminCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("greenstats.admin")) {
-            sender.sendMessage(plugin.getPrefix() + plugin.getConfig()
-                    .getString("messages.no-permission", "&cYou don't have permission!"));
+            sender.sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&',
+                    plugin.getPrefix() + plugin.getConfig()
+                            .getString("messages.no-permission", "&cYou don't have permission!")));
             return true;
         }
 
@@ -33,8 +35,25 @@ public class AdminCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
             statsManager.load();
-            sender.sendMessage(plugin.getPrefix() + plugin.getConfig()
-                    .getString("messages.reloaded", "&aConfig reloaded!"));
+
+            // حذف کتاب قدیمی و دادن کتاب جدید به همه‌ی بازیکن‌های آنلاین
+            for (Player p : plugin.getServer().getOnlinePlayers()) {
+                int slot = plugin.getConfig().getInt("book.slot", 1);
+                if (slot < 0 || slot > 8) slot = 1;
+
+                // حذف کتاب قدیمی
+                org.bukkit.inventory.ItemStack old = p.getInventory().getItem(slot);
+                if (old != null && old.getType() == org.bukkit.Material.WRITTEN_BOOK) {
+                    p.getInventory().setItem(slot, null);
+                }
+
+                // دادن کتاب جدید
+                p.getInventory().setItem(slot, BookItem.createBook(plugin, statsManager, p));
+            }
+
+            sender.sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&',
+                    plugin.getPrefix() + plugin.getConfig()
+                            .getString("messages.reloaded", "&aConfig reloaded!")));
             return true;
         }
 
