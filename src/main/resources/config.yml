@@ -1,0 +1,47 @@
+# GreenStats Configuration
+
+# Prefix used in all messages
+prefix: "&aGreenStats &8» &r"
+
+# The book item settings
+book:
+  # Slot in the player's inventory (0-8 for hotbar, 1 = second slot)
+  slot: 1
+  # Title of the book
+  title: "&a&lYour Stats"
+  # Author of the book
+  author: "&aGreenStats"
+  # Book content (each line is a page)
+  pages:
+    - "&a&l&nYour Statistics&r\n\n&fPlayer: &a{player}\n&fKills: &a{kills}\n&fDeaths: &a{deaths}\n&fKDR: &a{kdr}\n&fBest Streak: &a{best_streak}"
+  # Should the book be given on join?
+  give-on-join: true
+
+# Messages
+messages:
+  # Stats messages
+  stats-header: "{prefix}&6&m-----&r &e{player}'s Stats &6&m-----"
+  stats-kills: "{prefix}&fKills: &a{kills}"
+  stats-deaths: "{prefix}&fDeaths: &c{deaths}"
+  stats-kdr: "{prefix}&fKDR: &e{kdr}"
+  stats-streak: "{prefix}&fCurrent Streak: &a{streak}"
+  stats-best-streak: "{prefix}&fBest Streak: &6{best_streak}"
+  stats-footer: "{prefix}&6&m---------------------"
+
+  # Kill messages
+  kill-message: "{prefix}&a{killer} &7killed &c{victim} &7(&e{kills}&7 kills)"
+
+  # Admin messages
+  reloaded: "{prefix}&aConfig reloaded!"
+  no-permission: "{prefix}&cYou don't have permission!"
+  player-not-found: "{prefix}&cPlayer not found!"
+
+  # Top kills
+  top-header: "{prefix}&6&l----- &eTop Killers &6&l-----"
+  top-entry: "{prefix}&e#{rank} &f{player} &7- &a{kills} kills"
+  top-footer: "{prefix}&6&l---------------------"
+
+# Database (YAML for simple storage)
+database:
+  # Save interval in seconds
+  save-interval: 300
