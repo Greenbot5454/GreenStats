@@ -5,7 +5,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class TopCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("greenstats.top")) {
-            sender.sendMessage(plugin.getPrefix() + "&cYou don't have permission!");
+            sender.sendMessage(plugin.getMessage("no-permission"));
             return true;
         }
 
