@@ -1,0 +1,32 @@
+name: GreenStats
+version: ${project.version}
+main: ir.Greenbot.greenstats.GreenStats
+api-version: '1.21'
+author: Greenbot
+description: Player statistics plugin with book GUI
+
+commands:
+  stats:
+    description: Show your stats or another player's stats
+    usage: /stats [player]
+    permission: greenstats.stats
+  greenstats:
+    description: Admin commands
+    usage: /greenstats reload
+    aliases: [gs]
+    permission: greenstats.admin
+  topkills:
+    description: Show the top killers
+    usage: /topkills
+    permission: greenstats.top
+
+permissions:
+  greenstats.stats:
+    description: Use /stats
+    default: true
+  greenstats.top:
+    description: Use /topkills
+    default: true
+  greenstats.admin:
+    description: Admin commands
+    default: op
