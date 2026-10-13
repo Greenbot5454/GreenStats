@@ -1,9 +1,9 @@
 name: GreenStats
-version: ${project.version}
+version: 1.0.1
 main: ir.Greenbot.greenstats.GreenStats
 api-version: '1.21'
 author: Greenbot
-description: Player statistics plugin with book GUI
+description: Player statistics plugin with book GUI 
 
 commands:
   stats:
