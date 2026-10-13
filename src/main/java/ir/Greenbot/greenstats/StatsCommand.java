@@ -1,6 +1,5 @@
 package ir.Greenbot.greenstats;
 
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -26,8 +25,7 @@ public class StatsCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("greenstats.stats")) {
-            sender.sendMessage(color(plugin.getPrefix() + plugin.getConfig()
-                    .getString("messages.no-permission", "&cYou don't have permission!")));
+            sender.sendMessage(plugin.getMessage("no-permission"));
             return true;
         }
 
@@ -35,19 +33,16 @@ public class StatsCommand implements CommandExecutor {
         UUID targetUuid;
 
         if (args.length > 0) {
-            // آمار بازیکن دیگه
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             if (target.getName() == null && !target.hasPlayedBefore()) {
-                sender.sendMessage(color(plugin.getPrefix() + plugin.getConfig()
-                        .getString("messages.player-not-found", "&cPlayer not found!")));
+                sender.sendMessage(plugin.getMessage("player-not-found"));
                 return true;
             }
             targetName = target.getName() != null ? target.getName() : args[0];
             targetUuid = target.getUniqueId();
         } else {
-            // آمار خود فرستنده
             if (!(sender instanceof Player p)) {
-                sender.sendMessage(color(plugin.getPrefix() + "&cConsole must specify a player!"));
+                sender.sendMessage(plugin.getMessage("prefix") + "§cConsole must specify a player!");
                 return true;
             }
             targetName = p.getName();
@@ -56,19 +51,14 @@ public class StatsCommand implements CommandExecutor {
 
         StatsData data = statsManager.getStats(targetUuid);
 
-        // فرستادن پیام‌ها
-        sender.sendMessage(color(plugin.getMessage("stats-header", "{player}", targetName)));
-        sender.sendMessage(color(plugin.getMessage("stats-kills", "{kills}", String.valueOf(data.getKills()))));
-        sender.sendMessage(color(plugin.getMessage("stats-deaths", "{deaths}", String.valueOf(data.getDeaths()))));
-        sender.sendMessage(color(plugin.getMessage("stats-kdr", "{kdr}", String.valueOf(data.getKdr()))));
-        sender.sendMessage(color(plugin.getMessage("stats-streak", "{streak}", String.valueOf(data.getCurrentStreak()))));
-        sender.sendMessage(color(plugin.getMessage("stats-best-streak", "{best_streak}", String.valueOf(data.getBestStreak()))));
-        sender.sendMessage(color(plugin.getMessage("stats-footer")));
+        sender.sendMessage(plugin.getMessage("stats-header", "{player}", targetName));
+        sender.sendMessage(plugin.getMessage("stats-kills", "{kills}", String.valueOf(data.getKills())));
+        sender.sendMessage(plugin.getMessage("stats-deaths", "{deaths}", String.valueOf(data.getDeaths())));
+        sender.sendMessage(plugin.getMessage("stats-kdr", "{kdr}", String.valueOf(data.getKdr())));
+        sender.sendMessage(plugin.getMessage("stats-streak", "{streak}", String.valueOf(data.getCurrentStreak())));
+        sender.sendMessage(plugin.getMessage("stats-best-streak", "{best_streak}", String.valueOf(data.getBestStreak())));
+        sender.sendMessage(plugin.getMessage("stats-footer"));
 
         return true;
-    }
-
-    private String color(String text) {
-        return text;
     }
 }
