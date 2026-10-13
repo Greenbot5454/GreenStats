@@ -3,6 +3,7 @@ package ir.Greenbot.greenstats;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -66,18 +67,21 @@ public class GreenStats extends JavaPlugin {
     // گرفتن پیام از config با جایگزینی placeholder
     public String getMessage(String key, String... replacements) {
         String msg = getConfig().getString("messages." + key, "&cMessage not found: " + key);
+
+        // جایگزینی خودکار {prefix}
+        msg = msg.replace("{prefix}", getPrefix());
+
+        // جایگزینی placeholderهای دستی
         for (int i = 0; i + 1 < replacements.length; i += 2) {
             msg = msg.replace(replacements[i], replacements[i + 1]);
         }
-        return msg;
+
+        // تبدیل & به رنگ
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
     public String getPrefix() {
         return getConfig().getString("prefix", "&aGreenStats &8» &r");
-    }
-
-    public String color(String text) {
-        return text;
     }
 
     public Component colorComponent(String text) {
