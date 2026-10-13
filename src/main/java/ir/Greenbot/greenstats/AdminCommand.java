@@ -1,9 +1,11 @@
 package ir.Greenbot.greenstats;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class AdminCommand implements CommandExecutor {
@@ -21,14 +23,12 @@ public class AdminCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("greenstats.admin")) {
-            sender.sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&',
-                    plugin.getPrefix() + plugin.getConfig()
-                            .getString("messages.no-permission", "&cYou don't have permission!")));
+            sender.sendMessage(plugin.getMessage("no-permission"));
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(plugin.getPrefix() + "&eUsage: /greenstats reload");
+            sender.sendMessage(plugin.getPrefix() + "§eUsage: /greenstats reload");
             return true;
         }
 
@@ -42,8 +42,8 @@ public class AdminCommand implements CommandExecutor {
                 if (slot < 0 || slot > 8) slot = 1;
 
                 // حذف کتاب قدیمی
-                org.bukkit.inventory.ItemStack old = p.getInventory().getItem(slot);
-                if (old != null && old.getType() == org.bukkit.Material.WRITTEN_BOOK) {
+                ItemStack old = p.getInventory().getItem(slot);
+                if (old != null && old.getType() == Material.WRITTEN_BOOK) {
                     p.getInventory().setItem(slot, null);
                 }
 
@@ -51,13 +51,11 @@ public class AdminCommand implements CommandExecutor {
                 p.getInventory().setItem(slot, BookItem.createBook(plugin, statsManager, p));
             }
 
-            sender.sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&',
-                    plugin.getPrefix() + plugin.getConfig()
-                            .getString("messages.reloaded", "&aConfig reloaded!")));
+            sender.sendMessage(plugin.getMessage("reloaded"));
             return true;
         }
 
-        sender.sendMessage(plugin.getPrefix() + "&eUsage: /greenstats reload");
+        sender.sendMessage(plugin.getPrefix() + "§eUsage: /greenstats reload");
         return true;
     }
 }
